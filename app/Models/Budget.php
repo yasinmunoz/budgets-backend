@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Budget extends Model
 {
     protected $fillable = [
-        'title',
-        'task',
-        'state',
+        'name',
+        'task_id',
+        'state_id',
         'description',
         'total'
     ];
@@ -19,7 +19,9 @@ class Budget extends Model
         return $this->hasOne(BudgetState::class,  'id','state_id');
     }
 
-    public function Lines() {
+    public function lines() {
         return $this->hasMany(BudgetLine::class,  'budget_id');
     }
+
+
 }

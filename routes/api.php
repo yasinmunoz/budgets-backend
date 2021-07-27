@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BudgetsController;
+use App\Http\Controllers\BudgetStatesController;
+use App\Http\Controllers\BudgetLinesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +38,25 @@ Route::prefix('budgets')->group(function () {
     Route::put('', [BudgetsController::class, 'store']);
     Route::patch('{id}', [BudgetsController::class, 'store']);
     Route::delete('', [BudgetsController::class, 'destroy']);
+
+    Route::prefix('states')->group(function () {
+        Route::post('', [BudgetStatesController::class, 'index']);
+        Route::get('', [BudgetStatesController::class, 'index']);
+        Route::get('{id}', [BudgetStatesController::class, 'show']);
+        Route::put('', [BudgetStatesController::class, 'store']);
+        Route::patch('{id}', [BudgetStatesController::class, 'store']);
+        Route::delete('', [BudgetStatesController::class, 'destroy']);
+    });
+
+    Route::prefix('lines')->group(function () {
+        Route::post('', [BudgetLinesController::class, 'index']);
+        Route::get('', [BudgetLinesController::class, 'index']);
+        Route::get('{id}', [BudgetLinesController::class, 'show']);
+        Route::put('', [BudgetLinesController::class, 'store']);
+        Route::patch('{id}', [BudgetLinesController::class, 'store']);
+        Route::delete('', [BudgetLinesController::class, 'destroy']);
+        Route::post('states', [BudgetLinesController::class, 'states']);
+
+    });
 });
+

@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class BudgetState extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'state_id',
+        'name',
+        'description'
+    ];
 }

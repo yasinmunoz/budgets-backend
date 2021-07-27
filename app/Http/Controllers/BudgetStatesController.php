@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BudgetState;
 use Illuminate\Http\Request;
 
 class BudgetStatesController extends Controller
@@ -13,7 +14,15 @@ class BudgetStatesController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            //throw new \Exception('dfsdafsda');
+
+            // devuelve todos los BudgetState
+            return response()->json(BudgetState::all());
+
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -34,7 +43,18 @@ class BudgetStatesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        try {
+
+            //throw new \Exception('dfsdafsda');
+
+            // creamos un BudgetState y le pasamos todos los valores
+            return BudgetState::create($request->all());
+
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     /**
@@ -45,7 +65,15 @@ class BudgetStatesController extends Controller
      */
     public function show($id)
     {
-        //
+
+        try {
+
+            return BudgetState::with('state', 'lines')->find($id);
+
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     /**
@@ -68,7 +96,23 @@ class BudgetStatesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            //buscamos el budget state por su id
+            $budgetState = BudgetState::findOrFail($id);
+
+            //le pasamos a budget state los datos
+            $budgetState->state_id = $request->name;
+            $budgetState->name = $request->task_id;
+            $budgetState->description = $request->description;
+
+            //actualizamos
+            $budgetState->update();
+
+            return $budgetState;
+
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -77,8 +121,18 @@ class BudgetStatesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        try {
+            //buscamos el budget state por su id
+            $budgetState = BudgetState::findOrFail($request->get('id'));
+
+            //borramos
+            $budgetState->delete();
+
+            return response()->json('ok');
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

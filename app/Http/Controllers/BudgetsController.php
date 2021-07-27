@@ -19,8 +19,13 @@ class BudgetsController extends Controller
 
             //throw new \Exception('dfsdafsda');
 
-            // devuelve todos los budgets
-            return Budget::all();
+            // devuelve todos los budgets con la relacion con state
+            return Budget::with(['state:id,name,code',
+                'lines'/* => function($query) {
+                    $query->select('id', 'name', 'budget_id', 'created_at')
+                        ->whereNotNull('id');
+                }*/
+            ])->get();
 
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -99,9 +104,9 @@ class BudgetsController extends Controller
             $budget = Budget::findOrFail($id);
 
             //le pasamos a budget los datos
-            $budget->title = $request->title;
-            $budget->task = $request->task;
-            $budget->state = $request->state;
+            $budget->name = $request->name;
+            $budget->task_id = $request->task_id;
+            $budget->state_id = $request->state_id;
             $budget->description = $request->description;
             $budget->total = $request->total;
 
@@ -131,6 +136,7 @@ class BudgetsController extends Controller
             $budget->delete();
 
             return response()->json('ok');
+
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
