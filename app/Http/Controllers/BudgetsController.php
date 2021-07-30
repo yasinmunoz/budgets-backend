@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Budget;
+use App\Models\BudgetLine;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -59,12 +60,16 @@ class BudgetsController extends Controller
             $budget->user_id = 1;
 
             $budget->save();
+            $lines= [];
+            foreach ($budget->lines as $line){
+                $lines[] = new BudgetLine($line);
+            }
 
-            // recorremos las lines del budget
+            $budget->lines()->saveMany($lines);
 
-            // creamos un budget y le pasamos todos los valores
 
             return response()->json($budget);
+
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
