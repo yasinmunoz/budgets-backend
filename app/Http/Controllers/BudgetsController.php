@@ -52,11 +52,19 @@ class BudgetsController extends Controller
     {
         try {
 
-            //throw new \Exception('dfsdafsda');
+            $data = $request->all();
+            $budget = new Budget($data);
+
+            // TODO: eliminar esto en cuanto haya login
+            $budget->user_id = 1;
+
+            $budget->save();
+
+            // recorremos las lines del budget
 
             // creamos un budget y le pasamos todos los valores
-            return Budget::create($request->all());
 
+            return response()->json($budget);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -108,6 +116,7 @@ class BudgetsController extends Controller
             $budget->task_id = $request->task_id;
             $budget->state_id = $request->state_id;
             $budget->description = $request->description;
+            $budget->total_in_hour = $request->total_in_hour;
             $budget->total = $request->total;
 
             //actualizamos

@@ -12,6 +12,7 @@ class Budget extends Model
         'task_id',
         'state_id',
         'description',
+        'total_in_hours',
         'total'
     ];
 
