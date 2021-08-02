@@ -21,7 +21,7 @@ class Budget extends Model
     }
 
     public function lines() {
-        return $this->hasMany(BudgetLine::class,  'budget_id');
+        return $this->hasMany(BudgetLine::class);
     }
 
 

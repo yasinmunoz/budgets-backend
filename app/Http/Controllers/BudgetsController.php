@@ -54,20 +54,21 @@ class BudgetsController extends Controller
         try {
 
             $data = $request->all();
-            $budget = new Budget($data);
+
+            $data['user_id'] = 1;
+            $budget = Budget::updateOrCreate([
+                'id' => $data['id'],
+            ], $data);
+
 
             // TODO: eliminar esto en cuanto haya login
-            $budget->user_id = 1;
+            $lines = [];
+            $budget->lines()->delete();
+            $budget->lines()->saveMany(
+                array_map(function($item) { return new BudgetLine($item);}, $data['lines'])
+            );
 
-            $budget->save();
-            $lines= [];
-            foreach ($budget->lines as $line){
-                $lines[] = new BudgetLine($line);
-            }
-
-            $budget->lines()->saveMany($lines);
-
-
+            $budget->lines;
             return response()->json($budget);
 
         } catch (\Exception $ex) {
