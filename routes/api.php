@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BudgetsController;
 use App\Http\Controllers\BudgetStatesController;
 use App\Http\Controllers\BudgetLinesController;
-
+use App\Http\Controllers\BudgetLineStatesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -57,6 +57,14 @@ Route::prefix('budgets')->group(function () {
         Route::delete('', [BudgetLinesController::class, 'destroy']);
         Route::post('states', [BudgetLinesController::class, 'states']);
 
+        Route::prefix('states')->group(function () {
+            Route::post('', [BudgetLineStatesController::class, 'index']);
+            Route::get('', [BudgetLineStatesController::class, 'index']);
+            Route::get('{id}', [BudgetLineStatesController::class, 'show']);
+            Route::put('', [BudgetLineStatesController::class, 'store']);
+            Route::patch('{id}', [BudgetLineStatesController::class, 'store']);
+            Route::delete('', [BudgetLineStatesController::class, 'destroy']);
+        });
     });
 });
 
