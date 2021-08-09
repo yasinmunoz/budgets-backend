@@ -19,7 +19,6 @@ class BudgetsController extends Controller
         try {
 
             //throw new \Exception('dfsdafsda');
-
             // devuelve todos los budgets con la relacion con state
             return Budget::with(['state:id,name,code',
                 'lines'/* => function($query) {

@@ -6,6 +6,7 @@ use App\Http\Controllers\BudgetsController;
 use App\Http\Controllers\BudgetStatesController;
 use App\Http\Controllers\BudgetLinesController;
 use App\Http\Controllers\BudgetLineStatesController;
+use App\Http\Controllers\ProductsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -68,3 +69,11 @@ Route::prefix('budgets')->group(function () {
     });
 });
 
+Route::prefix('products')->group(function () {
+    Route::post(    '',    [ProductsController::class, 'index']);
+    Route::get(     '',    [ProductsController::class, 'index']);
+    Route::get(     '{id}',[ProductsController::class, 'show']);
+    Route::put(     '',    [ProductsController::class, 'store']);
+    Route::patch(   '{id}',[ProductsController::class, 'store']);
+    Route::delete(  '',    [ProductsController::class, 'destroy']);
+});
