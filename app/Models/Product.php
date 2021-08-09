@@ -21,4 +21,9 @@ class Product extends Model
         'price'
     ];
 
+    protected $casts = [
+//        'cuantity' => 'float'
+        'prio' => 'boolean'
+    ];
+
 }
