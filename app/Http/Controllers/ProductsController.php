@@ -102,7 +102,7 @@ class ProductsController extends Controller
             //le pasamos a user los datos
             $product->id       = $request->id;
             $product->name     = $request->name;
-            $product->cuantity = $request->cuantity;
+            $product->quantity = $request->quantity;
             $product->type     = $request->type;
             $product->prio     = $request->prio;
             $product->price    = $request->price;

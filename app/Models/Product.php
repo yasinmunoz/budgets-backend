@@ -15,14 +15,14 @@ class Product extends Model
     protected $fillable = [
         'id',
         'name',
-        'cuantity',
+        'quantity',
         'type',
         'prio',
         'price'
     ];
 
     protected $casts = [
-//        'cuantity' => 'float'
+//        'quantity' => 'float'
         'prio' => 'boolean'
     ];
 
