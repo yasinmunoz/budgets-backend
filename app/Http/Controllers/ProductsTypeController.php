@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProductsController extends Controller
+class ProductTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +19,8 @@ class ProductsController extends Controller
     {
         try {
             // devuelve todos los users
-            return Product::with(['type'])->get();
-        } catch (\Exception $ex){
+            return ProductType::all();
+        } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -47,10 +48,7 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         try {
-
-            // creamos un user y le pasamos todos los valores
-            return Product::create($request->all());
-
+            return ProductType::create($request->all());
         } catch (\Exception $ex){
             return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -65,7 +63,7 @@ class ProductsController extends Controller
     public function show($id)
     {
         try {
-            return response()->json(Product::find($id));
+            return response()->json(ProductType::find($id));
         }catch(\Exception $ex){
             return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -94,20 +92,16 @@ class ProductsController extends Controller
     {
         try {
             //buscamos el user por su id
-            $product = Product::findOrFail($id);
+            $productType = Product::findOrFail($id);
 
             //le pasamos a user los datos
-            $product->id       = $request->id;
-            $product->name     = $request->name;
-            $product->quantity = $request->quantity;
-            $product->type     = $request->type;
-            $product->prio     = $request->prio;
-            $product->price    = $request->price;
+            $productType->id       = $request->id;
+            $productType->name     = $request->name;
 
             //actualizamos
-            $product->update();
+            $productType->update();
 
-            return $product;
+            return $productType;
 
         } catch (\Exception $ex){
             return response()->json(['error' => $ex->getMessage(), 'linea' => $ex->getLine()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -126,10 +120,10 @@ class ProductsController extends Controller
 
         try {
             //buscamos el user por su id
-            $product = Product::findOrFail($request->get('id'));
+            $productType = ProductType::findOrFail($request->get('id'));
 
             //borramos
-            $product->delete();
+            $productType->delete();
 
             return response()->json('ok');
         } catch (\Exception $ex){

@@ -16,7 +16,7 @@ class Product extends Model
         'id',
         'name',
         'quantity',
-        'type',
+        'type_id',
         'prio',
         'price'
     ];
@@ -25,5 +25,9 @@ class Product extends Model
 //        'quantity' => 'float'
         'prio' => 'boolean'
     ];
+
+    public function type() {
+        return $this->hasOne(ProductType::class, 'id', 'type_id');
+    }
 
 }
